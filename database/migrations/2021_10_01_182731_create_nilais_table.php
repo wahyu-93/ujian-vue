@@ -21,6 +21,7 @@ class CreateNilaisTable extends Migration
             $table->string('kosong', 20);
             $table->string('score', 20);
             $table->string('keterangan');
+            
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

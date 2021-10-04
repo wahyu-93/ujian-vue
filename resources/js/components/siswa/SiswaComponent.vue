@@ -2,11 +2,11 @@
     <div class="col-md-9">
         <div class="panel panel-primary">
         <div class="panel-heading">
-            Siswa
+            Daftar Siswa
         </div>
 
         <div class="panel-body">
-            Ini Halaman Siswa
+            Ini Halaman Daftar Siswa
         </div>
         </div>
     </div>

@@ -21,7 +21,8 @@ class SoalResource extends JsonResource
             'jawaban_b'     => $this->jawaban_b,
             'jawaban_c'     => $this->jawaban_c,
             'jawaban_d'     => $this->jawaban_d,
-            'kunci_jawaban' => $this->kunci_jawaban
+            'kunci_jawaban' => $this->kunci_jawaban,
+            'status'        => $this->status
         ];
     }
 }

@@ -6,6 +6,7 @@
             </div>
 
             <div class="panel-body">
+                <h2>Selamat Datang</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-3">
                         <div class="panel panel-primary">
@@ -14,7 +15,7 @@
                             </div>      
 
                             <div class="panel-body">
-                                0
+                                {{ form.lulus }} Orang
                             </div>
                         </div>
                     </div>
@@ -26,7 +27,7 @@
                             </div>      
 
                             <div class="panel-body">
-                                0
+                                {{ form.tdkLulus }} Orang
                             </div>
                         </div>
                     </div>
@@ -38,7 +39,7 @@
                             </div>      
 
                             <div class="panel-body">
-                                0
+                                {{ form.user }} Orang
                             </div>
                         </div>
                     </div>
@@ -47,3 +48,20 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return {
+            form: {}   
+        }
+    }, 
+
+    mounted(){
+        axios.get('api/dashboard')
+        .then((response) => {
+            this.form = response.data
+        })
+    }
+}
+</script>

@@ -13,6 +13,7 @@ class Soal extends Model
         'jawaban_b',
         'jawaban_c',
         'jawaban_d',
-        'kunci_jawaban'
+        'kunci_jawaban',
+        'status'
     ];
 }

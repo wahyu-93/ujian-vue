@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -25,6 +26,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = User::create($request->all());
+        if($request->hasFile('image')){
+            $foto  = $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('img', $foto);
+
+            $user->update([
+                'image' => $foto
+            ]);
+        };
         return response(new UserResource($user), Response::HTTP_CREATED);
     }
 
@@ -37,6 +46,11 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if($user->image){
+            // dd(public_path().'/storage/img/'.$user->image);
+            File::delete(public_path().'/storage/img/'.$user->image);
+        };
+
         $user->delete();
         return response('Delete Data', Response::HTTP_OK);
     }

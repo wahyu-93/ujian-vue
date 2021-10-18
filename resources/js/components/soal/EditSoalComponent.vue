@@ -2,7 +2,7 @@
     <div class="col-md-9">
         <div class="panel panel-primary">
             <div class="panel-heading clearfix">
-                Tambah Soal
+                Edit Soal
             </div>
 
             <div class="panel-body">

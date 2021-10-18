@@ -24,7 +24,8 @@ class UserResource extends JsonResource
             'jenis_kelamin'     => $this->jenis_kelamin,
             'status'            => $this->status,
             'alamat'            => $this->alamat,
-            'no_hp_ortu'        => $this->no_hp_ortu
+            'no_hp_ortu'        => $this->no_hp_ortu,
+            'image'             => $this->image
         ];
     }
 }

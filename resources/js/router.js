@@ -11,6 +11,7 @@ import Pengaturan from './components/pengaturan/PengaturanComponent.vue'
 
 import Siswa from './components/siswa/SiswaComponent.vue'
 import AddSiswa from './components/siswa/AddSiswaComponent.vue'
+import EditSiswa from './components/siswa/EditSiswaComponent.vue'
 
 const routes = [
     // soal
@@ -61,6 +62,11 @@ const routes = [
         name: 'add_siswa',
         path: '/siswa/add',
         component: AddSiswa
+    },
+    {
+        name: 'edit_siswa',
+        path: '/siswa/:id',
+        component: EditSiswa
     }
 ]
 

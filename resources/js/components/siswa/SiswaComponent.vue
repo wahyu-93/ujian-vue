@@ -12,44 +12,87 @@
         </div>
 
         <div class="panel-body">
-            <table class="table-default">
-                <tr>
-                    <td class="middle">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="/assets/foto/luffy.jpg"  alt="Gagal Upload" width="120px" height="120px"> 
-                            </div>
+            <table class="table table-striped">
+                <tbody>
+                    <tr v-for="(siswa, index) in siswas" :key="index">
+                        <td class="middle">
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <img v-if="siswa.image" :src="'storage/img/'+siswa.image"  alt="Gagal Upload" width="150px" height="150px">
+                                    <img v-else src="storage/img/user.png"  alt="Gagal Upload" width="150px" height="150px">
+                                </div>
 
-                            <div class="media-body">
-                                <address>
-                                    Username: Username <br>
-                                    Nama Siswa: Nama Siswa <br>
-                                    Jenis Kelamin: Jenis Kelamin <br>
-                                    Status: Status <br>
-                                    Kelas: Kelas <br>
-                                    Nik: Nik
-                                </address>
-                            </div>
-                        </div>         
-                    </td>
+                                <div class="media-body">
+                                    <address>
+                                        <b>Username:</b>   {{ siswa.email }}<br>
+                                        <b>Nama Siswa:</b> {{ siswa.name }} <br>
+                                        <b>Jenis Kelamin:</b> {{ siswa.jenis_kelamin }} <br>
+                                        <b>Status:</b> {{ siswa.status }} <br>
+                                        <b>Kelas:</b> {{ siswa.kelas }} <br>
+                                        <b>Nik:</b> {{ siswa.nik }}
+                                    </address>
+                                </div>
+                            </div>         
+                        </td>
 
-                    <td class="middle" width="150">
-                        <a href="#" class="btn btn-circle btn-danger" title="Edit">
-                            <i class="fa fa-pencil-alt"></i>
-                        </a> 
-                        <a href="#" class="btn btn-circle btn-danger" title="Hapus">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                        <a href="#" class="btn btn-circle btn-danger" title="Aktif">
-                            <i class="fa fa-check"></i>
-                        </a>
-                        <a href="#" class="btn btn-circle btn-danger" title="Non Aktif">
-                            <i class="fa fa-power-off"></i>
-                        </a>
-                    </td>
-                </tr>
+                        <td class="middle" width="100">
+                            <router-link
+                                :to="{name: 'edit_siswa', params:{id:siswa.android_id}}"
+                                class="btn btn-circle btn-danger"
+                                title="Edit">
+                                    <i class="fa fa-pencil-alt"></i>
+                            </router-link>
+
+                            <button
+                                class="btn btn-circle btn-danger" 
+                                title="Hapus"
+                                @click="hapus(siswa.android_id)">
+                                    <i class="fa fa-trash"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         </div>
     </div>
 </template>
+
+<script>
+import Swal from 'sweetalert2'
+
+export default {
+    data(){
+        return {
+            siswas:{}
+        }
+    }, 
+
+    mounted(){
+        this.getSiswa()
+    },
+
+    methods: {
+        hapus(id){
+            axios.delete('/api/user/'+ id)
+            .then((res) => {
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: 'Data Berhasil Dihapus',
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                })
+
+                this.getSiswa()
+            })
+        },
+        getSiswa(){
+            axios.get('/api/user')
+            .then((res) => {
+                this.siswas = res.data.data
+            })
+        }
+    }
+}
+</script>

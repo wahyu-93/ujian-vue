@@ -2290,11 +2290,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      form: {}
+      form: {},
+      previewFoto: null
     };
   },
   created: function created() {
@@ -2303,6 +2311,7 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/api/user/' + this.$route.params.id).then(function (res) {
       console.log(res.data);
       _this.form = res.data;
+      _this.previewFoto = '/storage/img/' + _this.form.image;
     });
   },
   methods: {
@@ -2317,7 +2326,18 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Batal'
       }).then(function (update) {
         if (update.isConfirmed) {
-          axios.put('/api/user/' + _this2.$route.params.id, _this2.form).then(function (res) {
+          var data = new FormData();
+          data.append('nik', _this2.form.nik);
+          data.append('name', _this2.form.name);
+          data.append('kelas', _this2.form.kelas);
+          data.append('jenis_kelamin', _this2.form.jenis_kelamin);
+          data.append('alamat', _this2.form.alamat);
+          data.append('email', _this2.form.email);
+          data.append('password', _this2.form.password);
+          data.append('android_id', _this2.form.android_id);
+          data.append('image', _this2.form.image);
+          data.append('_method', 'put');
+          axios.post('/api/user/' + _this2.$route.params.id, data).then(function (res) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
               title: 'Sukses!',
               text: 'Data Berhasil Diubah',
@@ -2337,6 +2357,11 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    uploadFoto: function uploadFoto(event) {
+      console.log(event.target.files[0]);
+      this.form.image = event.target.files[0];
+      this.previewFoto = URL.createObjectURL(event.target.files[0]);
     }
   }
 });
@@ -42776,55 +42801,41 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-lg-12" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "status" } }, [
-                  _vm._v("Jenis Kelamin")
-                ]),
+                _c("input", {
+                  ref: "fotoInput",
+                  staticStyle: { display: "none" },
+                  attrs: { type: "file", name: "image", id: "image" },
+                  on: { change: _vm.uploadFoto }
+                }),
                 _vm._v(" "),
                 _c(
-                  "select",
+                  "button",
                   {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.status,
-                        expression: "form.status"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { name: "status", id: "status" },
+                    staticClass: "btn btn-primary btn-sm",
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.form,
-                          "status",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.$refs.fotoInput.click()
                       }
                     }
                   },
                   [
-                    _c("option", { attrs: { value: "" } }),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "Aktif" } }, [
-                      _vm._v("Aktif")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "Tidak-Aktif" } }, [
-                      _vm._v("Tidak Aktif")
-                    ])
+                    _vm._v(
+                      "\n                                Upload Foto\n                            "
+                    )
                   ]
-                )
+                ),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("img", {
+                  attrs: {
+                    src: _vm.previewFoto,
+                    alt: "gagal upload foto",
+                    width: "200px",
+                    height: "200px"
+                  }
+                })
               ])
             ])
           ])

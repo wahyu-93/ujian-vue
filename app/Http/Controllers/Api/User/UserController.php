@@ -40,7 +40,20 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::where('android_id', $id)->first();
+        $image = $user->image;
         $user->update($request->all());
+        
+        if($request->hasFile('image')){
+            File::delete(public_path().'/storage/img/'.$image);
+            
+            $foto  = $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('img', $foto);
+            
+            $user->update([
+                'image' => $foto
+            ]);
+        };
+        
         return response(new UserResource($user), Response::HTTP_OK);
     }
 

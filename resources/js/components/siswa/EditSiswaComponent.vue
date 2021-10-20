@@ -64,12 +64,19 @@
 
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="status">Jenis Kelamin</label>
-                                <select name="status" id="status" class="form-control" v-model="form.status">
-                                    <option value=""></option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Tidak-Aktif">Tidak Aktif</option>
-                                </select>
+                                <input 
+                                    type="file" 
+                                    name="image" 
+                                    id="image" 
+                                    @change="uploadFoto"
+                                    ref="fotoInput"
+                                    style="display : none">
+                                <button 
+                                    class="btn btn-primary btn-sm"
+                                    @click.prevent="$refs.fotoInput.click()">
+                                    Upload Foto
+                                </button><br><br>
+                                <img :src="previewFoto" alt="gagal upload foto" width="200px" height="200px">
                             </div>
                         </div>
                     </div>
@@ -101,7 +108,8 @@ import Swal from 'sweetalert2'
 export default {
     data(){
         return {
-            form: {}
+            form: {},
+            previewFoto: null
         }
     },
 
@@ -110,6 +118,7 @@ export default {
         .then((res) => {
             console.log(res.data)
             this.form = res.data
+            this.previewFoto = '/storage/img/' + this.form.image
         })
     },
     
@@ -124,7 +133,19 @@ export default {
             })
             .then((update) => {
                 if(update.isConfirmed){
-                    axios.put('/api/user/'+this.$route.params.id, this.form)
+                    let data = new FormData;
+                    data.append('nik', this.form.nik)
+                    data.append('name', this.form.name)
+                    data.append('kelas', this.form.kelas)
+                    data.append('jenis_kelamin', this.form.jenis_kelamin)
+                    data.append('alamat', this.form.alamat)
+                    data.append('email', this.form.email)
+                    data.append('password', this.form.password)
+                    data.append('android_id', this.form.android_id)
+                    data.append('image', this.form.image)
+                    data.append('_method', 'put')
+                    
+                    axios.post('/api/user/'+this.$route.params.id, data)
                     .then((res) => {
                         Swal.fire({
                             title: 'Sukses!',
@@ -147,6 +168,12 @@ export default {
                 }
             })
             
+        },
+
+        uploadFoto(event){
+            console.log(event.target.files[0])
+            this.form.image = event.target.files[0]
+            this.previewFoto = URL.createObjectURL(event.target.files[0])
         }
     }
 }

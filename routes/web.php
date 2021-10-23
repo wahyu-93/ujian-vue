@@ -20,3 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::view('/{any}', 'home');
+
+Route::get('/ujian/siswa', 'UjianController@index')->name('ujian.index');
+Route::post('/ujian/siswa', 'UjianController@store')->name('ujian.submit');

@@ -1829,7 +1829,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      forms: {}
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/api/nilai').then(function (res) {
+      _this.forms = res.data.data;
+      console.log(_this.forms);
+    });
+  }
+});
 
 /***/ }),
 
@@ -41772,28 +41787,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-9" }, [
-      _c("div", { staticClass: "panel panel-primary" }, [
-        _c("div", { staticClass: "panel-heading" }, [
-          _vm._v("\n            Hasil Ujian Siswa\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-body" }, [
-          _c("table", { staticClass: "table-default" }, [
-            _c("tr", [
+  return _c("div", { staticClass: "col-md-9" }, [
+    _c("div", { staticClass: "panel panel-primary" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _vm._v("\n            Hasil Ujian Siswa\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [
+        _c(
+          "table",
+          { staticClass: "table-default" },
+          _vm._l(_vm.forms, function(form, index) {
+            return _c("tr", { key: index }, [
               _c("td", { staticClass: "middle" }, [
                 _c("div", { staticClass: "media" }, [
                   _c("div", { staticClass: "media-left media-middle" }, [
                     _c("img", {
                       attrs: {
-                        src: "/assets/foto/luffy.jpg",
+                        src: "storage/img/" + form.image,
                         alt: "Gagal Upload",
                         width: "120px",
                         height: "120px"
@@ -41803,66 +41814,94 @@ var staticRenderFns = [
                   _vm._v(" "),
                   _c("div", { staticClass: "media-body" }, [
                     _c("h4", { staticClass: "media-heading" }, [
-                      _vm._v("Keteranga : Keterangan")
+                      _vm._v("Data Siswa")
                     ]),
                     _vm._v(" "),
                     _c("address", [
-                      _vm._v("\n                                    Kelas: 3 "),
+                      _vm._v("\n                                    Kelas: "),
+                      _c("b", [_vm._v(_vm._s(form.kelas))]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(
-                        "\n                                    Nama Siswa: Wahyudi "
+                        "\n                                    Nama Siswa: "
                       ),
+                      _c("b", [_vm._v(_vm._s(form.name))]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(
-                        "\n                                    Jenis Kelamin: Laki - Laki "
+                        "\n                                    Jenis Kelamin: "
                       ),
+                      _c("b", [_vm._v(_vm._s(form.jenis_kelamin))]),
+                      _vm._v(" "),
                       _c("br"),
-                      _vm._v(
-                        "\n                                    NIK: 310111021646\n                                "
-                      )
+                      _vm._v("\n                                    NIK: "),
+                      _c("b", [_vm._v(_vm._s(form.nik))])
                     ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "media-body" }, [
                     _c("h4", { staticClass: "media-heading" }, [
-                      _vm._v("Total Soal: 10")
+                      _vm._v(
+                        "Total Soal: " +
+                          _vm._s(
+                            parseInt(form.benar) +
+                              parseInt(form.salah) +
+                              parseInt(form.kosong)
+                          )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("address", [
                       _vm._v(
-                        "\n                                    Jawaban Benar: 20 "
+                        "\n                                    Jawaban Benar: "
                       ),
+                      _c("b", [_vm._v(_vm._s(form.benar))]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(
-                        "\n                                    Jawaban Salah: 30 "
+                        "\n                                    Jawaban Salah: "
                       ),
+                      _c("b", [_vm._v(_vm._s(form.salah))]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(
-                        "\n                                    Jawaban Kosong: 0 "
+                        "\n                                    Jawaban Kosong: "
                       ),
+                      _c("b", [_vm._v(_vm._s(form.kosong))]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(
-                        "\n                                    Nilai Anda: 40\n                                "
-                      )
+                        "\n                                    Nilai Anda: "
+                      ),
+                      _c("b", [_vm._v(_vm._s(form.nilai))])
                     ])
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _c("td", { staticClass: "middle" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-circle btn-danger btn-xs",
-                    attrs: { href: "#", title: "Hapus" }
-                  },
-                  [_c("i", { staticClass: "fa fa-trash" })]
-                )
-              ])
+              _vm._m(0, true)
             ])
-          ])
-        ])
+          }),
+          0
+        )
       ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "middle" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-circle btn-danger btn-xs",
+          attrs: { href: "#", title: "Hapus" }
+        },
+        [_c("i", { staticClass: "fa fa-trash" })]
+      )
     ])
   }
 ]

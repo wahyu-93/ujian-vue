@@ -27,6 +27,7 @@ class NilaiResource extends JsonResource
             'nilai'         => $this->score,
             'keterangan'    => $this->keterangan,
             'tanggal'       => $this->created_at,
+            'image'         => $this->user->image
         ];
     }
 }

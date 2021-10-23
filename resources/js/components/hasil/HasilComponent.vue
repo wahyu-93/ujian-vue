@@ -7,30 +7,31 @@
 
             <div class="panel-body">
                 <table class="table-default">
-                    <tr>
+                    <tr v-for="(form, index) in forms" :key="index">
+
                         <td class="middle">
                             <div class="media">
                                 <div class="media-left media-middle">
-                                    <img src="/assets/foto/luffy.jpg" alt="Gagal Upload" width="120px" height="120px"> 
+                                    <img :src="'storage/img/' + form.image" alt="Gagal Upload" width="120px" height="120px"> 
                                 </div>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading">Keteranga : Keterangan</h4>
+                                    <h4 class="media-heading">Data Siswa</h4>
                                     <address>
-                                        Kelas: 3 <br>
-                                        Nama Siswa: Wahyudi <br>
-                                        Jenis Kelamin: Laki - Laki <br>
-                                        NIK: 310111021646
+                                        Kelas: <b>{{ form.kelas }}</b> <br>
+                                        Nama Siswa: <b>{{ form.name }}</b> <br>
+                                        Jenis Kelamin: <b>{{ form.jenis_kelamin }}</b> <br>
+                                        NIK: <b>{{ form.nik }}</b>
                                     </address>
                                 </div>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading">Total Soal: 10</h4>
+                                    <h4 class="media-heading">Total Soal: {{ parseInt(form.benar) + parseInt(form.salah) + parseInt(form.kosong) }}</h4>
                                     <address>
-                                        Jawaban Benar: 20 <br>
-                                        Jawaban Salah: 30 <br>
-                                        Jawaban Kosong: 0 <br>
-                                        Nilai Anda: 40
+                                        Jawaban Benar: <b>{{ form.benar }}</b> <br>
+                                        Jawaban Salah: <b>{{ form.salah }}</b> <br>
+                                        Jawaban Kosong: <b>{{ form.kosong }}</b> <br>
+                                        Nilai Anda: <b>{{ form.nilai }}</b>
                                     </address>
                                 </div>
                             </div>
@@ -50,6 +51,18 @@
 
 <script>
 export default {
+    data(){
+        return {
+            forms:{},
+        }
+    }, 
 
+    created(){
+        axios.get('/api/nilai')
+        .then((res) => {
+            this.forms = res.data.data
+            console.log(this.forms)
+        })
+    }
 }
 </script>
